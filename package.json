@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "axios": "^0.15.3",
+    "cheerio": "^0.22.0"
+  },
+  "name": "lw5",
+  "description": "Rotten Tomatoes Scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moe-szyslak/Lethal-Weapon-5.git"
+  },
+  "keywords": [
+    "rotten",
+    "tomatoes",
+    "scraper"
+  ],
+  "author": "Moe Szyslak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moe-szyslak/Lethal-Weapon-5/issues"
+  },
+  "homepage": "https://github.com/moe-szyslak/Lethal-Weapon-5#readme"
+}
