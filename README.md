@@ -6,6 +6,8 @@ Rotten Tomatoes scraper using their private search API - no API key needed
 ## Installation
 `npm install lw5` or `yarn add lw5`
 
+Lethal Weapon 5 requires Node version `>=7.6`
+
 ## Usage
 ```javascript
 const lw5 = require('lw5');
