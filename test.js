@@ -3,10 +3,18 @@ const test = require('tape');
 const lw5 = require('./index');
 
 test('Running', (t) => {
-  t.plan(2);
+  t.plan(4);
 
   lw5('Get Out', 2016, 2017).then((movie) => {
     t.equal(movie.name, 'Get Out', 'Movie "Get Out" found between 2016 - 2017');
+  });
+
+  lw5('   Get Out    ', 2016, 2017).then((movie) => {
+    t.equal(movie.name, 'Get Out', 'Movie "Get Out" [trimmed] found between 2016 - 2017');
+  });
+
+  lw5('   Kong: SKULL ISLAND    ', 2016, 2017).then((movie) => {
+    t.equal(movie.name, 'Kong: Skull Island', 'Movie "Kong: Skull Island" [trimmed] found between 2016 - 2017');
   });
 
   lw5('Get Out', 2012, 2014).catch((err) => {
