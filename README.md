@@ -1,5 +1,6 @@
 ![Lethal Weapon 5](https://raw.githubusercontent.com/moe-szyslak/Lethal-Weapon-5/master/Lethal-Weapon-5.png "Lethal Weapon 5")
 
+# Lethal Weapon 5 [![Build Status](https://travis-ci.org/moe-szyslak/Lethal-Weapon-5.svg?branch=master)](https://travis-ci.org/moe-szyslak/Lethal-Weapon-5)
 Rotten Tomatoes scraper using their private search API - no API key needed
 
 ## Installation
