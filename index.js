@@ -49,7 +49,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       director,
       author,
       genre,
-      synopsis: $('meta[name="twitter:description"]').attr('content'),
+      synopsis: $('div#movieSynopsis').html(),
       poster: $('a#poster_link > img').attr('src'),
       videoPoster: $('div#heroImageContainer > a > .heroImage').attr('style').match(/'(.+)'/i)[1] || null,
     });
