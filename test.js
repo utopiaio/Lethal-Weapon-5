@@ -7,8 +7,8 @@ test('Running', (t) => {
 
   lw5('Get Out', 2016, 2017).then((movie) => {
     t.equal(movie.name, 'Get Out', 'Movie "Get Out" found between 2016 - 2017');
-    t.equal(movie.runtime, '104 minutes', 'Release');
-    t.equal(movie.release, 'Feb 24, 2017', 'Runtime');
+    t.equal(movie.runtime, '104 minutes', 'Movie "Get Out" Release');
+    t.equal(movie.release, 'Feb 24, 2017', 'Movie "Get Out" Runtime');
   });
 
   lw5('   Get Out    ', 2016, 2017).then((movie) => {
