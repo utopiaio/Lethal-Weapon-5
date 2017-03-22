@@ -44,19 +44,25 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     Object.assign(movie411, {
       name,
       contentRating,
-      aggregateRating,
+      aggregateRating: aggregateRating || null,
       actors: actors.slice(0, 5),
       director,
       author,
       genre,
-      synopsis: $('div#movieSynopsis').text(),
-      poster: $('a#poster_link > img').attr('src'),
-      videoPoster: $('div#heroImageContainer > a > .heroImage').attr('style').match(/'(.+)'/i)[1] || null,
+      synopsis: $('div#movieSynopsis').text() || null,
+      poster: $('a#poster_link > img').attr('src') || null,
+      videoPoster: $('div#heroImageContainer > a > .heroImage').attr('style') ? $('div#heroImageContainer > a > .heroImage').attr('style').match(/'(.+)'/i)[1] : null,
     });
 
     // Protect SUMMER at all times, we'll be following the link to get the trailer video...
     // TODO:
     // abort link without waiting for .then which is triggered after movie data is dumped
+    if ($('div#heroImageContainer > a').attr('data-mp4-url') === undefined) {
+      Object.assign(movie411, { trailer: null });
+      resolve(movie411);
+      return;
+    }
+
     const videoResponse = await axios.get($('div#heroImageContainer > a').attr('data-mp4-url'), { maxRedirects: 1 });
 
     // eslint-disable-next-line
