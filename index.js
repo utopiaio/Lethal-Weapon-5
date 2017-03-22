@@ -41,6 +41,8 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     const $ = cheerio.load(movieResponse.data);
     const { name, contentRating = 'NR', aggregateRating = null, actors, director, author, genre } = JSON.parse($('script#jsonLdSchema').text());
     const [release = null, runtime = null] = $('ul.content-meta.info time[datetime]').toArray();
+    const synopsisPlus = $('div#movieSynopsis').text(); // this sometimes™ carries `stars...` info which can be long
+    const synopsis = synopsisPlus.search(/stars/i) > -1 ? synopsisPlus.slice(0, synopsisPlus.slice(0, synopsisPlus.search(/stars/i)).lastIndexOf('.') + 1) : synopsisPlus;
 
     Object.assign(movie411, {
       name,
@@ -52,7 +54,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       director,
       author,
       genre,
-      synopsis: $('div#movieSynopsis').text() || null,
+      synopsis,
       poster: $('a#poster_link > img').attr('src') || null,
       videoPoster: $('div#heroImageContainer > a > .heroImage').attr('style') ? $('div#heroImageContainer > a > .heroImage').attr('style').match(/'(.+)'/i)[1] : null,
     });
