@@ -39,7 +39,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     const movie411 = Object.create(null); // all the stolen data will be stored here
     const movieResponse = await axios.get(`${RT_URL}${movie.url}`);
     const $ = cheerio.load(movieResponse.data);
-    const { name, contentRating, aggregateRating, actors, director, author, genre } = JSON.parse($('script#jsonLdSchema').text());
+    const { name, contentRating = 'NR', aggregateRating = null, actors, director, author, genre } = JSON.parse($('script#jsonLdSchema').text());
     const [release = null, runtime = null] = $('ul.content-meta.info time[datetime]').toArray();
 
     Object.assign(movie411, {
@@ -47,7 +47,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       release: release ? $(release).text().replace(/\n/g, '').trim() : release,
       runtime: runtime ? $(runtime).text().replace(/\n/g, '').trim() : runtime,
       contentRating,
-      aggregateRating: aggregateRating || null,
+      aggregateRating,
       actors: actors.slice(0, 5),
       director,
       author,
