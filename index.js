@@ -68,7 +68,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       return;
     }
 
-    const videoResponse = await axios.get($('div#heroImageContainer > a').attr('data-mp4-url'), { maxRedirects: 1 });
+    const videoResponse = await axios.get($('div#heroImageContainer > a').attr('data-hls-url'), { maxRedirects: 1 });
 
     // eslint-disable-next-line
     Object.assign(movie411, { trailer: videoResponse.request._options.href });
