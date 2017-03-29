@@ -56,22 +56,20 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       genre,
       synopsis,
       poster: $('a#poster_link > img').attr('src') || null,
-      videoPoster: $('div#heroImageContainer > a > .heroImage').attr('style') ? $('div#heroImageContainer > a > .heroImage').attr('style').match(/'(.+)'/i)[1] : null,
     });
 
-    // Protect SUMMER at all times, we'll be following the link to get the trailer video...
-    // TODO:
-    // abort link without waiting for .then which is triggered after movie data is dumped
-    if ($('div#heroImageContainer > a').attr('data-mp4-url') === undefined) {
-      Object.assign(movie411, { trailer: null });
-      resolve(movie411);
-      return;
-    }
-
-    const videoResponse = await axios.get($('div#heroImageContainer > a').attr('data-hls-url'), { maxRedirects: 1 });
-
+    const videoClips = JSON.parse($.html().match(/var videoClips = (\[.+\]);/)[1]);
     // eslint-disable-next-line
-    Object.assign(movie411, { trailer: videoResponse.request._options.href });
+    const videosDirectURL = await axios.all(videoClips.map(videoClip => axios.get(videoClip.urls.hls, { maxRedirects: 1 })));
+
+    // this is the part where you fix your face
+    // Yes, I'm going to be mutating [enhancing] `videoClips` with `directHls` links
+    videosDirectURL.forEach((directVideo, index) => {
+      // eslint-disable-next-line
+      videoClips[index].urls.directHls = directVideo.request._options.href;
+    });
+
+    Object.assign(movie411, { trailers: videoClips });
     resolve(movie411);
   } catch (err) {
     reject(err);
