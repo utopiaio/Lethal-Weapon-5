@@ -71,7 +71,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
 
     const videoClips = JSON.parse($.html().match(/var videoClips = (\[.+\]);/)[1]);
     // eslint-disable-next-line
-    const videosDirectURL = await axios.all(videoClips.map(videoClip => videoClipPromise(videoClip.urls.hls)));
+    const videosDirectURL = await axios.all(videoClips.map(videoClip => videoClipPromise(videoClip.urls.mp4)));
 
     // this is the part where you fix your face
     // Yes, I'm going to be mutating [enhancing] `videoClips` with `directHls` links
