@@ -70,17 +70,14 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     });
 
     const videoClips = JSON.parse($.html().match(/var videoClips = (\[.+\]);/)[1]);
+    // eslint-disable-next-line
     const videosDirectURL = await axios.all(videoClips.map(videoClip => videoClipPromise(videoClip.urls.hls)));
 
     // this is the part where you fix your face
     // Yes, I'm going to be mutating [enhancing] `videoClips` with `directHls` links
     videosDirectURL.forEach((directVideo, index) => {
-      if (directVideo.status === 200) {
-        // eslint-disable-next-line
-        videoClips[index].urls.directHls = directVideo.request._options.href;
-      } else {
-        videoClips[index].urls.directHls = null;
-      }
+      // eslint-disable-next-line
+      videoClips[index].urls.directHls = directVideo.status === 200 ? directVideo.request._options.href : null;
     });
 
     Object.assign(movie411, { trailers: videoClips });
