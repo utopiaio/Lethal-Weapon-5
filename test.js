@@ -3,7 +3,7 @@ const test = require('tape');
 const lw5 = require('./index');
 
 test('Running', (t) => {
-  t.plan(7);
+  t.plan(8);
 
   lw5('Get Out', 2016, 2017).then((movie) => {
     t.equal(movie.name, 'Get Out', 'Movie "Get Out" found between 2016 - 2017');
@@ -25,5 +25,9 @@ test('Running', (t) => {
 
   lw5('THE TICKET', 2016, 2017).then((movie) => {
     t.equal(movie.name, 'The Ticket', 'Movie "The Ticket" found between 2016 - 2017');
+  });
+
+  lw5('Life', 2016, 2017).then((movie) => {
+    t.equal(movie.name, 'Life', 'Movie "Life" found between 2016 - 2017');
   });
 });
