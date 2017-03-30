@@ -50,7 +50,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       runtime: runtime ? $(runtime).text().replace(/\n/g, '').trim() : runtime,
       contentRating,
       aggregateRating,
-      actors: actors.slice(0, 5),
+      actors,
       director,
       author,
       genre,
@@ -61,7 +61,12 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     // this will always resolve
     const videoClipPromise = url => new Promise((resolveTrailer) => {
       axios
-        .get(url, { maxRedirects: 1 })
+        .get(url, {
+          maxRedirects: 1,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.1 Safari/603.1.30',
+          },
+        })
         .then((directVideo) => {
           resolveTrailer(directVideo);
         }, (err) => {
