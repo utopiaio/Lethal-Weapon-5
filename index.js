@@ -61,7 +61,12 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
     // this will always resolve
     const videoClipPromise = url => new Promise((resolveTrailer) => {
       axios
-        .get(url, { maxRedirects: 1 })
+        .get(url, {
+          maxRedirects: 1,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.1 Safari/603.1.30',
+          },
+        })
         .then((directVideo) => {
           resolveTrailer(directVideo);
         }, (err) => {
@@ -71,13 +76,13 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
 
     const videoClips = JSON.parse($.html().match(/var videoClips = (\[.+\]);/)[1]);
     // eslint-disable-next-line
-    const videosDirectURL = await axios.all(videoClips.map(videoClip => videoClipPromise(videoClip.urls.mp4)));
+    const videosDirectURL = await axios.all(videoClips.map(videoClip => videoClipPromise(videoClip.urls.hls)));
 
     // this is the part where you fix your face
     // Yes, I'm going to be mutating [enhancing] `videoClips` with `directHls` links
     videosDirectURL.forEach((directVideo, index) => {
       // eslint-disable-next-line
-      videoClips[index].urls.directMp4 = directVideo.status === 200 ? directVideo.request._options.href : null;
+      videoClips[index].urls.directHls = directVideo.status === 200 ? directVideo.request._options.href : null;
     });
 
     Object.assign(movie411, { trailers: videoClips });
