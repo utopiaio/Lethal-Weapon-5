@@ -50,7 +50,7 @@ module.exports = (title, yearStart = YS, yearEnd = YE) => new Promise(async (res
       runtime: runtime ? $(runtime).text().replace(/\n/g, '').trim() : runtime,
       contentRating,
       aggregateRating,
-      actors: actors.slice(0, 5),
+      actors,
       director,
       author,
       genre,

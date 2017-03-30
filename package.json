@@ -5,7 +5,7 @@
   },
   "name": "lw5",
   "description": "Rotten Tomatoes Scraper",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "main": "index.js",
   "devDependencies": {
     "tape": "^4.6.3"
